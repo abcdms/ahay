@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Efek Teks & Pop-up Modal</title>
+  
+  <!-- Sertakan library TypeIt -->
+  <script src="https://unpkg.com/typeit@8.7.0/dist/index.umd.js"></script>
+
+  <style>
+    /* Gaya dasar halaman */
+    body {
+      font-family: Arial, sans-serif;
+      background: url('https://raw.githubusercontent.com/abcdms/foto/main/gambar.jpg') no-repeat center center fixed;
+      background-size: cover;
+      padding: 20px;
+      margin: 0;
+      text-align: center;
+      color: #fff;
+    }
+
+    /* Kotak pertanyaan awal */
+    .question-box {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      display: block;
+    }
+
+    .button-container {
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    .yes {
+      background-color: green;
+      color: white;
+    }
+
+    .no {
+      background-color: red;
+      color: white;
+    }
+
+    /* Konten utama (disembunyikan dulu) */
+    .content {
+      display: none;
+    }
+
+    /* Kotak teks berjalan */
+    .messageC {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      font-size: 18px;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    /* Tombol modal */
+    .btn-show-modal {
+      background: green;
+      color: white;
+      display: none;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #fff;
+      width: 80%;
+      max-width: 400px;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .modal-message {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    /* Tombol dalam modal */
+    .yes-button {
+      background-color: green;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .no-button {
+      background-color: red;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Pertanyaan Awal -->
+  <div class="question-box" id="questionBox">
+    <h2 style="background-color: pink; color: black; padding: 10px; border-radius: 5px;">
+      Apakah salunaa sudah siap membaca ini?
+    </h2>
+    <div class="button-container">
+      <button class="yes" onclick="lanjut()">Sudah</button>
+      <button class="no" onclick="lanjut()">Belum</button>
+    </div>
+  </div>
+
+  <!-- Konten utama -->
+  <div class="content" id="mainContent">
+    
+    <!-- Elemen teks berjalan -->
+    <p class="messageC"></p>
+
+    <!-- Tombol untuk memunculkan modal -->
+    <button id="btnShowModal" class="btn-show-modal" onclick="showModal()">
+      <b>PENCET INI UNTUK LANJUT</b>
+    </button>
+
+    <!-- Modal -->
+    <div id="modalOverlay" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-check-icon">☑️</div>
+        <div class="modal-message"><i>apakah mau ngasii FEEDBACK?</i></div>
+        <button class="modal-button yes-button" onclick="goToWhatsApp('Iya')">Iya</button>
+        <button class="modal-button no-button" onclick="goToWhatsApp('Tidak')">Tidak</button>
+      </div>
+    </div>
+
+    <!-- Elemen Audio -->
+    <audio id="backgroundMusic" loop>
+      <source src="https://github.com/abcdms/iyaw/raw/refs/heads/main/musik.mp3" type="audio/mp3">
+      Browser kamu tidak mendukung elemen audio.
+    </audio>
+
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function lanjut() {
+      document.getElementById('questionBox').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+
+      // Mulai musik otomatis
+      document.getElementById("backgroundMusic").play();
+
+      // Mulai animasi teks berjalan
+      let teksAnimasi = [
+        "<h2 style='color: pink; font-size: 28px; text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);'><b>HAIII SALUNAAA</b></h2>",
+        "<br><b><i>KAMU TAUU GAAA???",
+        "<br><b>Setiap kali aku lihat kamu, dunia terasa lebih indah. Segala hal jadi lebih cerah, lebih ringan, dan lebih menyenangkan. Aku nggak tahu apakah itu karena senyummu, caramu berbicara, atau hanya karena kehadiranmu yang selalu membawa kebahagiaan.",
+        "<br><b>Kalau senyummu bisa jadi mata uang, pasti kamu udah jadi orang terkaya di dunia. Senyum itu punya kekuatan yang nggak bisa dijelaskan—bisa mengubah hari buruk jadi lebih baik dan bikin hati yang lelah jadi semangat lagi. Buat aku, nggak ada yang lebih berharga dari melihatmu tersenyum setiap hari.",
+        "<br><b>Aku bukan fotografer, tapi aku selalu bisa melihat keindahan dalam dirimu. Bukan cuma dari wajahmu yang memesona, tapi juga dari caramu bersikap dan memperlakukan orang lain. Keindahanmu nggak cuma bisa dilihat oleh mata, tapi juga bisa dirasakan oleh hati. Dan aku bersyukur karena bisa mengenalmu.",
+        ];
+
+      let instance = new TypeIt(".messageC", {
+        speed: 70,
+        waitUntilVisible: true,
+        lifeLike: true,
+        cursor: true,
+        afterComplete: function () {
+          // Tampilkan tombol setelah teks selesai
+          document.getElementById("btnShowModal").style.display = "block";
+        }
+      });
+
+      teksAnimasi.forEach((teks, index) => {
+        instance.type(teks);
+        if (index < teksAnimasi.length - 1) {
+          instance.pause(500).break();
+        }
+      });
+
+      instance.go();
+    }
+
+    function showModal() {
+      document.getElementById('modalOverlay').style.display = 'flex';
+    }
+
+    function goToWhatsApp(jawaban) {
+      var phoneNumber = '6282280204824'; // Ganti dengan nomor tujuan
+      var message = jawaban === 'Iya' ? '(ketik sendiri ya).' : 'Aku gabisa ngasi feedback maaf.';
+      var encodedMessage = encodeURIComponent(message);
+      var waUrl = 'https://wa.me/' + phoneNumber + '?text=' + encodedMessage;
+      window.location.href = waUrl;
+    }
+
+  </script>
+
+</body>
+</html>
